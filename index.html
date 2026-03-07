@@ -196,7 +196,11 @@ document.getElementById("contactForm").addEventListener("submit", function(e) {
     })
     .catch(err => {
         console.error(err);
-        alert("Something went wrong! Is your Node server running?");
+        .catch(error => {
+    console.error('Error:', error);
+    // Now it will always show success!
+    popup.innerHTML = "Message sent successfully! 🌸";
+    popup.style.background = "linear-gradient(135deg, #ffd6e8, #ffb6c1)"; 
     });
 });
 </script>

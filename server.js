@@ -40,7 +40,7 @@ app.post("/save", function(req, res){
             console.error("SQL Error:", err);
             return res.status(500).send("Database error");
         }
-        res.status(200).send("Message saved successfully!");
+        res.status(200).json({sucess:true, message:"Message sent successfully!"})
     });
 });
 

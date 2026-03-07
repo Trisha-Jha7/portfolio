@@ -161,7 +161,10 @@ document.getElementById("contactForm").addEventListener("submit", function(e) {
     })
     .then(response => {
         if (!response.ok) throw new Error('Server issues');
-        return response.text();
+        return response.json();
+    })
+    .then(data=>{
+     console.log(data.message);
     })
     .then(data => {
         // --- THE CUTE POPUP LOGIC ---

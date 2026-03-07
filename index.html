@@ -202,24 +202,5 @@ document.getElementById("contactForm").addEventListener("submit", function(e) {
     });
 });
 </script>
-<script>
-const text = [
-"BCA Analytics Student 💻",
-"Future Data Analyst 📊"
-];
-let i = 0, j = 0;
-
-function type()
-{
-    if(j < text[i].length)
-    {
-        document.getElementById("typing").innerHTML += text[i][j];
-        j++;
-        setTimeout(type, 100);
-    }
-}
-
-type();
-</script>
 </body>
 </html>

@@ -1,0 +1,50 @@
+const express = require("express");
+const mysql = require("mysql");
+const path = require("path");
+
+const app = express();
+
+/* MIDDLEWARE */
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+/* SERVE FRONTEND */
+app.use(express.static(__dirname));
+
+/* DATABASE CONNECTION */
+const db = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "portfolio"
+});
+
+db.connect(function(err){
+  if(err) throw err;
+  console.log("Connected to MySQL");
+});
+
+/* SAVE CONTACT FORM */
+app.post("/save", function(req, res){
+    console.log("Full Request Body:", req.body); // This should NOT be undefined now
+
+    const { name, email, message } = req.body;
+
+    if (!name || !email || !message) {
+        return res.status(400).send("Fill all fields! Data received was: " + JSON.stringify(req.body));
+    }
+
+    const sql = "INSERT INTO contact (name, email, message) VALUES (?, ?, ?)";
+    db.query(sql, [name, email, message], function(err, result) {
+        if (err) {
+            console.error("SQL Error:", err);
+            return res.status(500).send("Database error");
+        }
+        res.send("Message saved successfully!");
+    });
+});
+
+/* SERVER */
+app.listen(3000,function(){
+  console.log("Server running on port 3000");
+});

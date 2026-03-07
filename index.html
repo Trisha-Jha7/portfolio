@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Trisha's Portfolio 🌸</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- cute font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+<div class="container">
+
+    <div class="card profile-card">
+
+        <img src="profile.jpeg" class="profile-pic">
+
+        <h1>Trisha 🌸</h1>
+        
+        <h2><span id="typing"></span></h2>
+
+        <p class="subtitle">
+            Aspiring Developer • Creative Thinker • Student • Building projects
+        </p>
+
+    </div>
+
+
+    <section class="card">
+
+        <h2>About Me ✨</h2>
+
+        <p>
+            I am a BCA Analytics student who is interested in technology, especially web development and data-related work.
+        I have learned Python and MySQL and built small projects like student database systems.
+        Currently, I am learning HTML, CSS, JavaScript, node JS, and working on improving my practical skills.
+        My goal is to gain real-world experience and become skilled enough for internships and tech roles.
+        </p>
+    </section>
+
+
+    <section class="skills-section">
+    <h2>My Certificates 🌸</h2>
+
+    <div class="certificate">
+  <a href="analytics.png" target="_blank">
+   <button class="cert-btn">Data_Analytics</button>
+</a>
+<a href="css.png" target="_blank">
+   <button class="cert-btn">CSS3</button>
+</a>
+<a href="front.png" target="_blank">
+   <button class="cert-btn">Frontend</button>
+</a>
+<a href="git.png" target="_blank">
+   <button class="cert-btn">GitHub</button>
+</a>
+<a href="html.png" target="_blank">
+   <button class="cert-btn">HTML5</button>
+</a>
+<a href="java.png" target="_blank">
+   <button class="cert-btn">JavaScript</button>
+</a>
+<a href="literacy.png" target="_blank">
+   <button class="cert-btn">Data_Literacy</button>
+</a>
+<a href="nascom.png" target="_blank">
+   <button class="cert-btn">Digital_Eng</button>
+</a>
+<a href="node.png" target="_blank">
+   <button class="cert-btn">NodeJs</button>
+</a>
+   </div>
+</section>
+
+    <section class="card skills-section">
+    <h2>Skill Levels 🌸</h2>
+
+    <div class="skill">
+        <span>HTML</span>
+        <div class="progress-bar">
+            <div class="progress html">87%</div>
+        </div>
+    </div>
+
+    <div class="skill">
+        <span>CSS</span>
+        <div class="progress-bar">
+            <div class="progress css">85%</div>
+        </div>
+    </div>
+
+    <div class="skill">
+        <span>JavaScript</span>
+        <div class="progress-bar">
+            <div class="progress js">70%</div>
+        </div>
+    </div>
+
+    <div class="skill">
+        <span>Python</span>
+        <div class="progress-bar">
+            <div class="progress python">80%</div>
+        </div>
+    </div>
+
+    <div class="skill">
+        <span>MySQL</span>
+        <div class="progress-bar">
+            <div class="progress mysql">89%</div>
+        </div>
+    </div>    
+</section>
+
+    <section class="card">
+        
+        <h2>Contact Me 💌</h2>
+
+        <form id="contactForm" action="http://localhost:3000/save" method="POST">
+
+            <input type="text" name="name" placeholder="Your Name" required>
+
+            <input type="email" name="email" placeholder="Your Email" required>
+
+            <textarea name="message" placeholder="Your Message" required></textarea>
+
+            <button type="submit">Send Message ✨</button>
+
+        </form>
+
+    </section>
+    <footer>
+    <p>© 2026 Trisha. All rights reserved.</p>
+    </footer>
+
+</div>
+<div id="certModal" class="modal">
+
+    <span class="close" onclick="closeCert()">&times;</span>
+
+    <iframe id="certFrame" class="modal-content"></iframe>
+
+</div>
+<script>
+document.getElementById("contactForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+    const data = new URLSearchParams(formData); 
+
+    fetch("http://localhost:3000/save", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: data
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Server issues');
+        return response.text();
+    })
+    .then(data => {
+        // --- THE CUTE POPUP LOGIC ---
+        const overlay = document.createElement("div");
+        // We use style.cssText to ensure EVERY style hits at once
+        overlay.style.cssText = "position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.15); display:flex; justify-content:center; align-items:center; z-index:9999; opacity:0; transition:opacity 0.3s ease;";
+
+        const popup = document.createElement("div");
+        popup.innerHTML = "Message sent successfully 🌸";
+        popup.style.cssText = "background:linear-gradient(135deg, #ffd6e8, #ffe4f2); padding:25px 40px; border-radius:18px; font-size:18px; font-weight:600; color:#444; box-shadow:0 15px 40px rgba(0,0,0,0.2); transform:scale(0.7); transition:all 0.3s ease; text-align:center;";
+
+        overlay.appendChild(popup);
+        document.body.appendChild(overlay);
+
+        // Force a tiny delay so the transition animation works
+        setTimeout(() => {
+            overlay.style.opacity = "1";
+            popup.style.transform = "scale(1)";
+        }, 50);
+
+        // Remove after 2.5 seconds
+        setTimeout(() => {
+            overlay.style.opacity = "0";
+            popup.style.transform = "scale(0.7)";
+            setTimeout(() => overlay.remove(), 300);
+        }, 2500);
+
+        this.reset(); 
+    })
+    .catch(err => {
+        console.error(err);
+        alert("Something went wrong! Is your Node server running?");
+    });
+});
+</script>
+<script>
+const text = [
+"BCA Analytics Student 💻",
+"Future Data Analyst 📊"
+];
+let i = 0, j = 0;
+
+function type()
+{
+    if(j < text[i].length)
+    {
+        document.getElementById("typing").innerHTML += text[i][j];
+        j++;
+        setTimeout(type, 100);
+    }
+}
+
+type();
+</script>
+</body>
+</html>

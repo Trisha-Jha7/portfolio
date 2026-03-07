@@ -1,0 +1,52 @@
+const express = require("express");
+const mysql = require("mysql");
+const path = require("path");
+
+const app = express();
+
+/* MIDDLEWARE */
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+/* SERVE FRONTEND */
+app.use(express.static(__dirname));
+
+/* DATABASE CONNECTION */
+const db = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "portfolio"
+});
+
+db.connect(function(err){
+  if(err) throw err;
+  console.log("Connected to MySQL");
+});
+
+/* SAVE CONTACT FORM */
+app.post("/save", function(req, res){
+
+  console.log("BODY:",req.body);   // debug
+
+  const name = req.body.name;
+  const email = req.body.email;
+  const message = req.body.message;
+
+  const sql = "INSERT INTO contact (name,email,message) VALUES (?,?,?)";
+
+  db.query(sql,[name,email,message],function(err,result){
+    if(err){
+      console.log(err);
+      res.send("Error saving message");
+    } else {
+      res.send("Message saved successfully!");
+    }
+  });
+
+});
+
+/* SERVER */
+app.listen(3000,function(){
+  console.log("Server running on port 3000");
+});

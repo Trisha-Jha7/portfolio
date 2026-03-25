@@ -18,6 +18,7 @@ const db = mysql.createConnection({
   password: "ZxnTjhndysgiAYvpbuLvcOduAHzNhVYt", 
   database: "railway", // usually 'railway'
   port: 42738        // e.g., 12345
+  insecureAuth:true 
 });
 
 db.connect(function(err){

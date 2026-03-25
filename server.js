@@ -13,10 +13,11 @@ app.use(express.static(__dirname));
 
 /* DATABASE CONNECTION */
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "portfolio"
+  host: "centerbeam.proxy.rlwy.net",     // e.g., monorail.proxy.rlwy.net
+  user: "root",     // e.g., root
+  password: "ZxnTjhndysgiAYvpbuLvcOduAHzNhVYt", 
+  database: "railway", // usually 'railway'
+  port: 42738        // e.g., 12345
 });
 
 db.connect(function(err){

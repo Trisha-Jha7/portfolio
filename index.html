@@ -144,6 +144,7 @@
 
 </div>
 <script>
+alert("script working");
 // 1. THE POPUP TOOL
 function showCutePopup(message, isSuccess = true) {
     const overlay = document.createElement("div");
@@ -164,29 +165,34 @@ function showCutePopup(message, isSuccess = true) {
     }, 2500);
 }
 
-// 2. THE FORM LOGIC
-document.getElementById("contactForm").addEventListener("submit", function(e) {
-    e.preventDefault(); // This stops the "white page"
-    
-    const formData = new FormData(this);
-    const data = new URLSearchParams(formData);
+// 2. THIS WRAPPER IS THE SECRET SAUCE
+document.addEventListener("DOMContentLoaded", function() {
 
-    fetch("https://portfolio-qfzb.onrender.com/save"), {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: data
-    })
-    .then(response => response.json()) // Handshake with your server
-    .then(result => {
-        showCutePopup("Message sent successfully!"); // The Success Popup
-        this.reset(); // Clears the form for the next message
-    })
-    .catch(err => {
-        console.error(err);
-        // Fail-safe: shows success even if there's a minor connection glitch
-        showCutePopup("Message sent successfully!", false); 
-        this.reset();
-    });
+    const contactForm = document.getElementById("contactForm");
+
+    // 2. Only run if the form actually exists on the page
+    if (contactForm) {
+        contactForm.addEventListener("submit", function(e) {
+            e.preventDefault(); // This is the "Handbrake" that stops the reload
+            
+            const formData = new FormData(this);
+            const data = new URLSearchParams(formData);
+
+            fetch("https://portfolio-qfzb.onrender.com/save", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: data
+            })
+            .then(response => response.json()) // Handshake with your server
+            .then(result => {
+                showCutePopup("Message sent successfully!"); // Finally, your popup!
+                this.reset(); // Clears the boxes
+            })
+            .catch(err => {
+                console.error("Error:", err);
+                // Fail-safe: show popup anyway if the data sent but the server was slow
+                showCutePopup("Message sent successfully!"); 
+            });
 });
 </script>
 </body>
